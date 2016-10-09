@@ -100,8 +100,8 @@ measure_direction() {
   DIRECTION=$1
 
   # Start dots
-  print_dots &
-  dots_pid=$!
+  # print_dots &
+  # dots_pid=$!
   # echo "Dots PID: $dots_pid"
 
   # Start Ping
@@ -132,6 +132,7 @@ measure_direction() {
   # Wait until each of the background netperf processes completes 
   # echo "Process is $$"
   # echo `pgrep -P $$ netperf `
+  sleep 1
 
   for i in `pgrep -P $$ netperf `   # gets a list of PIDs for child processes named 'netperf'
   do
@@ -141,11 +142,11 @@ measure_direction() {
 
   # Print TCP Download speed
   echo ""
-  echo " $1: " `awk '{s+=$1} END {print s}' $SPEEDFILE` Mbps
+  echo " $DIRECTION: " `awk '{s+=$1} END {print s}' $SPEEDFILE` Mbps
 
   # When netperf completes, stop the dots and the pings
   kill_pings
-  kill_dots
+  #kill_dots
 
   # Summarize the ping data
   summarize_pings $PINGFILE
